@@ -1,0 +1,254 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <title>Twitter</title>
+        <meta name="description" content="H-Code - A premium portfolio template from ThemeZaa">
+        <meta name="keywords" content="">
+        <meta charset="utf-8">
+        <meta name="author" content="ThemeZaa">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+        <!-- favicon -->
+        <link rel="shortcut icon" href="images/favicon.png">
+        <link rel="apple-touch-icon" href="images/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+        <!-- animation --> 
+        <link rel="stylesheet" href="css/animate.css" />
+        <!-- bootstrap --> 
+        <link rel="stylesheet" href="css/bootstrap.css" />
+        <!-- et line icon --> 
+        <link rel="stylesheet" href="css/et-line-icons.css" />
+        <!-- font-awesome icon -->
+        <link rel="stylesheet" href="css/font-awesome.min.css" />
+        <!-- revolution slider -->
+        <link rel="stylesheet" href="css/extralayers.css" />
+        <link rel="stylesheet" href="css/settings.css" />
+        <!-- magnific popup -->
+        <link rel="stylesheet" href="css/magnific-popup.css" />
+        <!-- owl carousel -->
+        <link rel="stylesheet" href="css/owl.carousel.css" />
+        <link rel="stylesheet" href="css/owl.transitions.css" />
+        <link rel="stylesheet" href="css/full-slider.css" />
+        <!-- text animation -->
+        <link rel="stylesheet" href="css/text-effect.css" />
+        <!-- hamburger menu  -->
+        <link rel="stylesheet" href="css/menu-hamburger.css" />
+        <!-- common -->
+        <link rel="stylesheet" href="css/style.css" />
+        <!-- responsive -->
+        <link rel="stylesheet" href="css/responsive.css" />
+        <!--[if IE]>
+            <link rel="stylesheet" href="css/style-ie.css" />
+        <![endif]-->
+        <!--[if IE]>
+            <script src="js/html5shiv.js"></script>
+        <![endif]-->
+
+        <style>
+           h1, h2, h3, h4, h5 {
+               text-transform: none;
+           }
+       </style>
+
+    </head>
+    <body ng-app="Twitter" ng-controller="HomeController" ng-init="init()">
+        <!-- navigation panel -->
+        <nav class="navbar navbar-default navbar-fixed-top nav-transparent overlay-nav sticky-nav nav-white nav-border-bottom" role="navigation">
+            <div class="container">
+                <div class="row">
+                    <!-- logo -->
+                    <div class="col-md-2 pull-left"><a class="logo-light" href="index.html"><img alt="" src="images/logo-white.png" class="logo" /></a><a class="logo-dark" href="index.html"><img alt="" src="images/logo-light.png" class="logo" /></a></div>
+                    <!-- end logo -->
+                    
+                    <div ng-show="currentUser != null" class="col-md-2 pull-right"><a ng-click="logout()">Logout</a></div>
+                    
+                      
+                    <!-- end main menu -->
+                </div>
+            </div>
+        </nav>
+        <!-- end navigation panel -->
+    
+         <!-- content section -->
+        <section ng-show='currentUser==null' class="bg-gray wow fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-1">
+                        <h2 >Register</h2><br/>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">First Name</label>
+                            <input ng-model="profile.firstName" placeholder="First Name" type="text" name="email" id="email" class="input-round big-input">
+                        </div>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">Last Name</label>
+                            <input ng-model="profile.lastName" placeholder="Last Name" type="text" name="email" id="email" class="input-round big-input">
+                        </div>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">Email</label>
+                            <input ng-model="profile.email" placeholder="Email" type="text" name="email" id="email" class="input-round big-input">
+                        </div>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">Password</label>
+                            <input ng-model="profile.password" placeholder="Password" type="password" name="password" id="password" class="input-round big-input">
+                        </div>
+                        <button ng-click="register()" class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit">Register</button>
+                    </div>
+
+                    <div class="col-md-4 col-md-offset-2">
+                        <h2>Log In</h2><br/>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">Email</label>
+                            <input ng-model="returningUser.email" placeholder="Email" type="text" name="email" id="email" class="input-round big-input">
+                        </div>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">Password</label>
+                            <input ng-model="returningUser.password" placeholder="Password" type="password" name="password" id="password" class="input-round big-input">
+                        </div>
+                        <button ng-click="login()" class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit">Login</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end content section -->
+
+        <section class="bg-light wow fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h2>Who I'm Following</h2>
+                            <table>
+                                <tbody>
+                                    <tr ng-repeat='follower in following'>
+                                        <td><h5><% follower.firstName %>&nbsp;&nbsp;</h5><td><td><button ng-click='unfollow(follower)'class="btn highlight-button-dark btn-very-small btn-round">Unfollow</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+
+                    <div class="col-md-8">
+                        <h2>Post Feed</h2>
+                        <div ng-repeat='post in postFeed'>
+                            <div style="margin-top:2%">
+                                <p class="lead"><% post.content %></p>
+                                <span style="float:left"><%post.posterFirstName%> <%post.posterLastName%></span><span style="float:right"><% post.timestamp | date : 'medium' %></span>
+                                <br/>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end content section -->
+
+        <section class="bg-gray wow fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div style="text-align:center" class="col-md-8 col-md-offset-2">
+                        <h2>Write a Post</h2>
+                        <br/>
+                        <div class="form-group no-margin-bottom">
+                            <textarea ng-model="newPost.content" placeholder="Type your post here to share with followers" type="text" name="email" id="email" class="input-round big-input"></textarea>
+                            <button ng-click="submitPost()" class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit">Post</button>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-light wow fadeIn">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h2>Follow Your Friends</h2>
+                        <table>
+                                <tbody>
+                                    <tr ng-repeat='user in users track by $index'>
+                                        <td><h5><% user.firstName %>&nbsp;&nbsp;</h5><td><td><button ng-click='follow(user.id)' class="btn highlight-button-dark btn-very-small btn-round">Follow</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+
+                    <div class="col-md-8">
+                        <h2>Edit Your Profile</h2>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">First Name</label>
+                            <input ng-model='currentUser.firstName' placeholder="First Name" type="text" name="email" id="email" class="input-round big-input">
+                        </div>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">Last Name</label>
+                            <input ng-model='currentUser.lastName' placeholder="Last Name" type="text" name="email" id="email" class="input-round big-input">
+                        </div>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">Email</label>
+                            <input ng-model='currentUser.email' placeholder="Email" type="text" name="email" id="email" class="input-round big-input">
+                        </div>
+                        <div class="form-group no-margin-bottom">
+                            <label class="text-uppercase">Password</label>
+                            <input ng-model='currentUser.password' placeholder="Password" type="password" name="password" id="password" class="input-round big-input">
+                        </div>
+                        <button ng-click='update()' class="btn highlight-button-dark btn-small btn-round margin-five no-margin-right" type="submit">Update</button>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </section>
+
+        
+
+        <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
+        <script type="text/javascript" src="/bower_components/angular-resource/angular-resource.min.js"></script>
+        <script type="text/javascript" src="/app/app.js"></script>
+        <script type="text/javascript" src="/app/controllers/home.js"></script>
+
+
+        <!-- javascript libraries / javascript files set #1 --> 
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/modernizr.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script> 
+        <script type="text/javascript" src="js/bootstrap-hover-dropdown.js"></script>
+        <script type="text/javascript" src="js/jquery.easing.1.3.js"></script> 
+        <script type="text/javascript" src="js/skrollr.min.js"></script>  
+        <script type="text/javascript" src="js/smooth-scroll.js"></script>
+         <!-- jquery appear -->
+        <script type="text/javascript" src="js/jquery.appear.js"></script>
+        <!-- animation -->
+        <script type="text/javascript" src="js/wow.min.js"></script>
+        <!-- page scroll -->
+        <script type="text/javascript" src="js/page-scroll.js"></script>
+        <!-- easy piechart-->
+        <script type="text/javascript" src="js/jquery.easypiechart.js"></script>
+        <!-- parallax -->
+        <script type="text/javascript" src="js/jquery.parallax-1.1.3.js"></script>
+        <!--portfolio with shorting tab --> 
+        <script type="text/javascript" src="js/jquery.isotope.min.js"></script> 
+        <!-- owl slider  -->
+        <script type="text/javascript" src="js/owl.carousel.min.js"></script>
+        <!-- magnific popup  -->
+        <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
+        <script type="text/javascript" src="js/popup-gallery.js"></script>
+        <!-- text effect  -->
+        <script type="text/javascript" src="js/text-effect.js"></script>
+        <!-- revolution slider  -->
+        <script type="text/javascript" src="js/jquery.tools.min.js"></script>
+        <script type="text/javascript" src="js/jquery.revolution.js"></script>
+        <!-- counter  -->
+        <script type="text/javascript" src="js/counter.js"></script>
+         <!-- countTo -->
+        <script type="text/javascript" src="js/jquery.countTo.js"></script>
+        <!-- fit videos  -->
+        <script type="text/javascript" src="js/jquery.fitvids.js"></script>
+        <!-- imagesloaded  -->
+        <script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
+        <!-- hamburger menu-->
+        <script type="text/javascript" src="js/classie.js"></script>
+        <script type="text/javascript" src="js/hamburger-menu.js"></script>
+        <!-- setting --> 
+        <script type="text/javascript" src="js/main.js"></script>
+    </body>
+</html>
